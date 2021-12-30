@@ -13,15 +13,15 @@ const sketch = () => {
 
     context.fillStyle = 'rgb(0, 0, 0)';
 
-    const cx = width * 0.5;
-    const cy = height * 0.5;
+    const cx = 0;
+    const cy = 0;
     let x, y;
 
     const w = width * 0.01;
     const h = height * 0.1;
 
     const num = 65;
-    const radius = width * 0.3;
+    const radius = width;
     const gradientStep = 255 / num;
     const colourStart = 0;
 
