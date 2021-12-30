@@ -9,7 +9,7 @@ const sketch = () => {
     context.fillStyle = '';
     context.fillRect(0, 0, width, height);
     context.lineWidth = width * 0.01;
-    context.strokeStyle = '#fff';
+    context.strokeStyle = 'rgb(255, 165, 0)';
 
     const w = width * 0.1;
     const h = height * 0.1;
@@ -23,6 +23,8 @@ const sketch = () => {
 
     for(let i = 0; i < 5; i++) {
         for(let j = 0; j < 5; j++) {
+
+          context.strokeStyle = 'rgb(' + (255-(j*50)) + ','+ (165-(i*25)) +', 0)';
 
             x = ix + ((w + gap) * i);
             y = iy + ((h + gap) * j);           
