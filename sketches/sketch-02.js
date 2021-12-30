@@ -20,7 +20,7 @@ const sketch = () => {
     const w = width * 0.01;
     const h = height * 0.1;
 
-    const num = 40;
+    const num = 65;
     const radius = width * 0.3;
     const gradientStep = 255 / num;
     const colourStart = 0;
@@ -31,7 +31,7 @@ const sketch = () => {
 
       const color =  colourStart + (gradientStep * i);
 
-      //context.fillStyle = 'rgb('+ color +','+ color +','+ color +')';
+      context.fillStyle = 'rgb('+ color +','+ color +','+ color +')';
 
       x = cx + radius * Math.sin(angle);
       y = cy + radius * Math.cos(angle);
@@ -48,14 +48,41 @@ const sketch = () => {
       context.restore();
       // End clock //
 
+      // Start eye
       context.save();
+      context.strokeStyle = 'rgb('+ color +','+ color +','+ color +')';
       context.translate(cx, cy);
       context.rotate(angle);
-      context.lineWidth = random.range(5, 20);
+      context.lineWidth = random.range(5, 25);
       context.beginPath();
       context.arc(0, 0, radius * random.range(0.7, 1.3), slice * random.range(1, -8), slice * random.range(1, 5));
       context.stroke();      
       context.restore();
+      // End eye
+
+      // Start pupil
+      context.save();
+      context.strokeStyle = 'rgb('+ (color + 100 ) +','+ (color - 50) +','+ (color - 50)  +')';
+      context.translate(cx, cy);
+      context.rotate(angle);
+      context.lineWidth = random.range(1, 6);
+      context.beginPath();
+      context.arc(0, 0, radius / 3 * random.range(0.2, 1.3), slice * random.range(1, -20), slice * random.range(1, 5));
+      context.stroke();      
+      context.restore();
+      // End pupil
+
+      // Start eye ball
+      context.save();
+      context.strokeStyle = 'rgba('+ (color + 100 ) +','+ (color - 50) +','+ (color - 50)  +', 0.1)';
+      context.translate(cx, cy);
+      context.rotate(angle);
+      context.lineWidth = random.range(1, 6);
+      context.beginPath();
+      context.arc(0, 0, radius / 2 * random.range(0.2, 1.3), slice * random.range(1, -20), slice * random.range(1, 5));
+      context.stroke();      
+      context.restore();
+      // End eye ball
     }   
   };
 };
