@@ -18,12 +18,14 @@ const params = {
   amp:0.2,
   animate: true,
   frame: 0,
-  lineCap: 'butt'
+  lineCap: 'butt',
+  color: '#000',
+  bgColor: '#fff'
 };
 
 const sketch = () => {
   return ({ context, width, height, frame }) => {
-    context.fillStyle = 'white';
+    context.fillStyle = params.bgColor;
     context.fillRect(0, 0, width, height);
 
     const cols = params.cols;
@@ -65,6 +67,7 @@ const sketch = () => {
 
       context.lineWidth = scale;
       context.lineCap = params.lineCap;
+      context.strokeStyle = params.color;
 
       context.beginPath();
       context.moveTo(w * -0.5, 0);
@@ -85,6 +88,12 @@ const createPane = () => {
   folder.addInput(params, 'lineCap', {options: {
     butt: 'butt', round: 'round', square: 'square'
   }});
+  folder.addInput(params, 'color', {
+    view: 'color'
+  });
+  folder.addInput(params, 'bgColor', {
+    view: 'color'
+  });
   folder.addInput(params, 'cols', { min: 2, max: 50, step: 1});
   folder.addInput(params, 'rows', { min: 2, max: 50, step: 1});
   folder.addInput(params, 'scaleMin', { min: 1, max: 100 });
