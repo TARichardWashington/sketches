@@ -1,6 +1,7 @@
 const canvasSketch = require('canvas-sketch');
 const math = require('canvas-sketch-util/math');
 const random = require('canvas-sketch-util/random');
+const Tweakpane = require('tweakpane');
 
 const settings = {
   dimensions: [ 1080, 1080 ],
@@ -12,6 +13,10 @@ const animate = () => {
   requestAnimationFrame(animate);
 }
 // animate();
+
+const params = {
+  llength: 0.1,
+}
 
 const sketch = ({ context, width, height }) => {
   const agents = [];
@@ -38,7 +43,11 @@ const sketch = ({ context, width, height }) => {
 
             context.lineWidth = math.mapRange(dist, 0, width/4, 6, 1);
 
-            if(dist < width / 4) {
+            console.log(params);
+
+
+
+            if(dist < width * params.llength) {
               context.beginPath();
               context.moveTo(agent.pos.x, agent.pos.y);
               context.lineTo(other.pos.x, other.pos.y);
@@ -54,6 +63,18 @@ const sketch = ({ context, width, height }) => {
     }); 
   };
 };
+
+const createPane = () => {
+  const pane = new Tweakpane.Pane();
+
+  let folder;
+
+  folder = pane.addFolder({ title: 'Lines'});
+  folder.addInput(params, 'llength', { min: 0, max: 1});
+
+};
+
+createPane();
 
 canvasSketch(sketch, settings);
 
