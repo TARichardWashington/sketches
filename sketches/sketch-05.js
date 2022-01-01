@@ -1,4 +1,5 @@
 const canvasSketch = require('canvas-sketch');
+const random = require('canvas-sketch-util/random');
 
 const settings = {
   dimensions: [ 1080, 1080 ]
@@ -28,7 +29,7 @@ const sketch = ({ context, width, height }) => {
     typeContext.fillStyle = backgroundColor;
     typeContext.fillRect(0, 0, width, height);
 
-    fontSize = cols;
+    fontSize = cols * 1.2;
 
     typeContext.fillStyle = fontColor;
 
@@ -55,7 +56,14 @@ const sketch = ({ context, width, height }) => {
     typeContext.fillText(text, 0, 0);
     typeContext.restore();
 
+    context.textBaseline = 'middle';
+
     const typeData = typeContext.getImageData(0,0, cols, rows).data;
+
+    //context.drawImage(typeCanvas, 0, 0);
+    
+    context.fillStyle = 'black';
+    context.fillRect(0, 0, width, height);
     
     for (let i = 0; i < numCells; i++) {
       const col = i % cols;
@@ -69,6 +77,13 @@ const sketch = ({ context, width, height }) => {
       const b = typeData[i * 4 + 2];
       const a = typeData[i * 4 + 3];
 
+      const glyph = getGlyph(r);
+
+      context.font = `${cell * 2}px serif`;
+      if(Math.random() < 0.1) {
+        context.font = `${cell * 6}px serif`;
+      }
+
       context.fillStyle = `rgb(${r}, ${g}, ${b})`;
       
       context.save();
@@ -76,21 +91,42 @@ const sketch = ({ context, width, height }) => {
       context.translate(cell * 0.5, cell * 0.5);
       //context.fillRect(0 , 0, cell, cell);
       context.beginPath();
-      context.arc(0, 0, cell * 0.5, 0, Math.PI * 2);
-      context.fill();
+      //context.arc(0, 0, cell * 0.5, 0, Math.PI * 2);
+      //context.fill();
+      context.fillText(glyph, 0, 0 );
+
       context.restore();
     }
-
-
-
-    context.drawImage(typeCanvas, 0, 0);
   };
+};
+
+const getGlyph = (v) => {
+  if(v < 50) {
+    return '';
+  }
+
+  if(v < 100) {
+    return ',';
+  }
+
+  if(v < 150) {
+    return '-';
+  }
+
+  if(v < 200) {
+    return '+';
+  }
+
+  const glyphs = '_= /'.split('');
+
+
+  return random.pick(glyphs);
 };
 
 const onKeyUp = (e) => {
   text = e.key.toUpperCase();
   manager.render();
-}
+};
 
 document.addEventListener('keyup', onKeyUp);
 
