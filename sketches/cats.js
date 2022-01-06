@@ -5,8 +5,7 @@ const Tweakpane = require('tweakpane');
 
 
 const settings = {
-  dimensions: [ 8080, 8080 ],
-  animate: true
+  dimensions: [ 8080, 8080 ]
 };
 
 const params = {
@@ -19,7 +18,10 @@ class Cat {
     this.w = w;
     this.h = h;
     this.n = n;
+
     this.stripe = Math.random() > 0.9;
+
+    this.blep = Math.random() > 0.95;
 
     const colours = ['#685E44', '#655951', '#4E3B31', '#615D4E', '#3F3433', '#B2875F'];
     this.colour = colours[Math.floor(Math.random() * colours.length)];
@@ -41,12 +43,11 @@ class Cat {
     const hairstyles = ['flat','flat','flat','flat','spike-left','spike-right','spike-center','mohawk'];
     this.hairstyle = hairstyles[Math.floor(Math.random() * hairstyles.length)];
 
-    //console.log(hairstyles.length);
-    //console.log(this.colour + ' ' + this.eyecolour + ' ' + this.stripe + ' ' + this.hairstyle);
+    console.log(this.colour + ' ' + this.eyecolour + ' ' + this.stripe + ' ' + this.hairstyle + ' ' + this.blep);
 
     if(this.colour === '#685E44' && this.eyecolour === '#92893B' && this.stripe === true && this.noseColour === '#C69293' && this.earColour === '#F7DFD3') {
       this.bagel = true;
-      console.log(this.colour + ' ' + this.eyecolour + ' ' + this.stripe);
+      console.log(this.colour + ' ' + this.eyecolour + ' ' + this.stripe + ' ' + this.blep);
       console.log('Meeperation');
     } 
   }
@@ -193,20 +194,17 @@ class Cat {
       context.beginPath();
       context.rect(this.w * -0.08, this.h * 0.225, this.w * 0.1, this.h * 0.075);
       context.fill();
-    }
-    
+    }   
 
     // Nose
     context.fillStyle = this.noseColour;
     context.beginPath();
-    context.rect(0 - (this.w * 0.1), -this.h * 0.02, this.w * 0.2, this.h * 0.02);
-    context.fill();
-    context.beginPath();
-    context.moveTo(0, 0);
+    context.moveTo(0 - (this.w * 0.1), -this.h * 0.02);
     context.lineTo(this.w * -0.1, 0);
     context.lineTo(0, this.h * 0.07);
     context.lineTo(this.w * 0.1, 0);
-    context.lineTo(0, 0);
+    context.lineTo(this.w * 0.1, -this.h * 0.02);
+    context.lineTo(0 - (this.w * 0.1), -this.h * 0.02);
     context.fill(); 
 
     // Ears
@@ -228,18 +226,31 @@ class Cat {
     context.beginPath();
     context.moveTo(0, this.h * 0.07);
     context.lineTo(0, this.h * 0.15); 
-    
-    context.arc(0 - this.w / 20, this.h * 0.15, this.w / 20, 0, Math.PI);
-    context.moveTo(0 + this.w / 10, this.h * 0.15);
-    context.arc(0 + this.w / 20, this.h * 0.15, this.w / 20, 0, Math.PI);
-
+    context.lineTo(0 + this.h * 0.15, this.h * 0.22);
+    context.moveTo(0, this.h * 0.15); 
+    context.lineTo(0 + this.h * -0.15, this.h * 0.22);
     context.stroke(); 
+    
+    // Use an arc??
+    //context.arc(0 - this.w / 20, this.h * 0.15, this.w / 20, 0, Math.PI);
+    //context.moveTo(0 + this.w / 10, this.h * 0.15);
+    //context.arc(0 + this.w / 20, this.h * 0.15, this.w / 20, 0, Math.PI);
+
+    // Blep
+    if(this.blep) {
+      context.fillStyle = '#AC496B';
+      context.beginPath();
+      context.moveTo(0, this.h * 0.15); 
+      context.arc(0, this.h * 0.15, this.h * 0.07, Math.PI * 2.14, Math.PI * 0.86);
+      context.stroke()
+      context.fill(); 
+    } 
 
     // Meep
     if(this.bagel) {
       context.fillStyle = 'black';
-     context.font = `${(this.w * 0.3)}px Arial`;
-     context.fillText("Meeep!", 0 - (this.w * 0.5), this.h *0.8);
+      context.font = `${(this.w * 0.3)}px Arial`;
+      context.fillText("Meeep!", 0 - (this.w * 0.5), this.h *0.8);
     }
   }
 }
