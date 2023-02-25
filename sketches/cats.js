@@ -5,7 +5,8 @@ const Tweakpane = require('tweakpane');
 
 
 const settings = {
-  dimensions: [ 8080, 8080 ]
+  dimensions: [ 8080, 8080 ],
+  animate: false
 };
 
 const params = {
